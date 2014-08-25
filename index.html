@@ -9,7 +9,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="css/normalize.min.css">
-        <link rel="stylesheet" href="css/font-awesome.min.css">
         <link rel="stylesheet" href="css/main.css">
 
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
@@ -22,23 +21,23 @@
         <!-- Content -->
         <nav id="appMenu">
             <a href="">
-                <div class="fa fa-film"></div>
+                <div class="icon">&#xf1b1;</div>
                 <p>Loren</p>
             </a>
             <a href="">
-                <div class="fa fa-film"></div>
+                <div class="icon">&#xf1de;</div>
                 <p>Loren</p>
             </a>
             <a href="">
-                <div class="fa fa-film"></div>
+                <div class="icon">&#xf080;</div>
                 <p>Loren</p>
             </a>
             <a href="">
-                <div class="fa fa-film"></div>
+                <div class="icon">&#xf164;</div>
                 <p>Loren</p>
             </a>
             <a href="">
-                <div class="fa fa-film"></div>
+                <div class="icon">&#xf1de;</div>
                 <p>Loren</p>
             </a>
         </nav>
@@ -49,33 +48,8 @@
                 </a>
                 <h1>Find Me Food!!!</h1>
             </header>
-            <main>
-                <div id="mainSectionWrapper">
-                    <a href="#" class="mainSection">
-                        <div class="mainSectionContent">
-                            <div class="fa fa-spoon"></div>
-                            <h2>Find me food!!!</h2>
-                        </div>
-                    </a>
-                    <a href="#" class="mainSection">
-                        <div class="mainSectionContent">
-                            <div class="fa fa-sliders"></div>
-                            <h2>Configure</h2>
-                        </div>
-                    </a>
-                    <a href="#" class="mainSection">
-                        <div class="mainSectionContent">
-                            <div class="fa fa-bar-chart-o"></div>
-                            <h2>Your History</h2>
-                        </div>
-                    </a>
-                    <a href="#" class="mainSection">
-                        <div class="mainSectionContent">
-                            <div class="fa fa-thumbs-up"></div>
-                            <h2>More about it</h2>
-                        </div>
-                    </a>
-                </div>
+            <main ui-view="mainContent">
+                
             </main>
             <footer>
                 &copy; Copyright 2014
