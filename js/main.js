@@ -5,10 +5,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider.state('dashboard', {
 		url: '/dashboard/',
 		views: {
-		  'mainContent': {            
+		  'mainContent': {
 		    templateUrl: 'views/dashboard.html',
 		    controller: 'dashboard'
 		  },
+		  'mainMenu': {
+		    templateUrl: 'views/menu.html',
+		    controller: 'menu'
+		  }
 		}
 	});
 });
