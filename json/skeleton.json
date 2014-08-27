@@ -1,0 +1,24 @@
+{
+	"menu" : [
+		{
+			"icon" : "&#xf1b1;",
+			"url" : "/",
+			"desc" : "Find me food!!!"
+		},
+		{
+			"icon" : "&#xf1de;",
+			"url" : "/",
+			"desc" : "Configure"
+		},
+		{
+			"icon" : "&#xf080;",
+			"url" : "/",
+			"desc" : "Your History"
+		},
+		{
+			"icon" : "&#xf164;",
+			"url" : "/",
+			"desc" : "More about it"
+		}
+	]
+}

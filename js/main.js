@@ -16,3 +16,19 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		}
 	});
 });
+
+
+
+app.factory('skeleton', function($http) {
+
+	var factory = {};
+
+	factory.callConfigurations = function() {
+		var promise = $http.get('json/skeleton.json').then(function (results) {
+			return results.data;
+		});
+		return promise;
+	};
+
+	return factory;
+});
