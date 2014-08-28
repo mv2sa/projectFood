@@ -17,6 +17,18 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		    controller: 'menu'
 		  }
 		}
+	}).state('findIt', {
+		url: '/findIt/',
+		views: {
+		  'mainContent': {
+		    templateUrl: 'views/findIt.html',
+		    controller: 'findIt'
+		  },
+		  'mainMenu': {
+		    templateUrl: 'views/menu.html',
+		    controller: 'menu'
+		  }
+		}
 	});
 });
 

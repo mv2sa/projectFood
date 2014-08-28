@@ -2,7 +2,7 @@
 	"menu" : [
 		{
 			"icon" : "&#xf1b1;",
-			"url" : "/",
+			"url" : "findIt",
 			"desc" : "Find me food!!!"
 		},
 		{
