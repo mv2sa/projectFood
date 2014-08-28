@@ -1,4 +1,4 @@
-<a href="" ng-repeat="menuItem in navigation.menu">
+<a ui-sref="{{ menuItem.url }}" ng-repeat="menuItem in navigation.menu">
     <div class="icon" ng-bind-html="menuItem.icon | toHTML"></div>
     <p>{{ menuItem.desc }}</p>
 </a>

@@ -29,6 +29,42 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		    controller: 'menu'
 		  }
 		}
+	}).state('configure', {
+		url: '/configure/',
+		views: {
+		  'mainContent': {
+		    templateUrl: 'views/configure.html',
+		    controller: 'configure'
+		  },
+		  'mainMenu': {
+		    templateUrl: 'views/menu.html',
+		    controller: 'menu'
+		  }
+		}
+	}).state('history', {
+		url: '/history/',
+		views: {
+		  'mainContent': {
+		    templateUrl: 'views/history.html',
+		    controller: 'history'
+		  },
+		  'mainMenu': {
+		    templateUrl: 'views/menu.html',
+		    controller: 'menu'
+		  }
+		}
+	}).state('aboutIt', {
+		url: '/aboutIt/',
+		views: {
+		  'mainContent': {
+		    templateUrl: 'views/aboutIt.html',
+		    controller: 'aboutIt'
+		  },
+		  'mainMenu': {
+		    templateUrl: 'views/menu.html',
+		    controller: 'menu'
+		  }
+		}
 	});
 });
 

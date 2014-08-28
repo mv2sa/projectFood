@@ -7,17 +7,17 @@
 		},
 		{
 			"icon" : "&#xf1de;",
-			"url" : "/",
+			"url" : "configure",
 			"desc" : "Configure"
 		},
 		{
 			"icon" : "&#xf080;",
-			"url" : "/",
+			"url" : "history",
 			"desc" : "Your History"
 		},
 		{
 			"icon" : "&#xf164;",
-			"url" : "/",
+			"url" : "aboutIt",
 			"desc" : "More about it"
 		}
 	]
