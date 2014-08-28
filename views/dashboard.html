@@ -1,7 +1,7 @@
 <div id="mainSectionWrapper">
-    <a href="#" class="mainSection" ng-repeat="dashboardItem in dashboardItems">
+    <a href="#" class="mainSection" ng-repeat="dashboardItem in dashboardItems.menu">
         <div class="mainSectionContent">
-            <div class="icon">{{ dashboardItem.icon }}</div>
+            <div class="icon" ng-bind-html="dashboardItem.icon | toHTML"></div>
             <h2>{{ dashboardItem.desc }}</h2>
         </div>
     </a>
