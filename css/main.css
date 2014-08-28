@@ -60,6 +60,27 @@ textarea {
    Find Me Food!!! Styles
    ========================================================================== */
 
+/* ==========================================================================
+    KEYFRAMES STYLES
+========================================================================== */
+
+@-moz-keyframes spin {
+    from {-moz-transform: rotate(0deg);}
+    to {-moz-transform: rotate(360deg);}
+}
+@-webkit-keyframes spin {
+    from {-webkit-transform: rotate(0deg);}
+    to {-webkit-transform: rotate(360deg);}
+}
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+}
+
+/* ==========================================================================
+    font-faces
+========================================================================== */
+
 @font-face {
     font-family: 'Open Sans';
     font-style: normal;
@@ -111,6 +132,10 @@ textarea {
   font-weight: normal;
   font-style: normal;
 }
+
+/* ==========================================================================
+    styles
+========================================================================== */
 
 *, 
 *:before, 
@@ -181,6 +206,13 @@ body {
     background-color: #9b1307;
 }
 
+#appBody .mainSection .loading {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 2em;
+}
+
+
 #appBody .mainSectionContent {
     display: table-cell;
     vertical-align: middle;
@@ -210,6 +242,35 @@ body {
 /* ==========================================================================
    Helper classes
    ========================================================================== */
+
+.no-cssanimations .loading:before {
+    content: 'Loading...';
+}
+
+.cssanimations .loading:before {
+    content: '\f110';
+    font-family: 'FontAwesome';
+    text-align: center;
+    font-size: 2.5em;
+    display: block;
+    -webkit-font-smoothing: antialiased;
+    -webkit-animation-duration: 1.5s;
+    -webkit-animation-name: spin;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-duration: 1.5s;
+    -moz-animation-name: spin;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -ms-animation-duration: 1.5s;
+    -ms-animation-name: spin;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
+    animation-duration: 1.5s;
+    animation-name: spin;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
 
 .icon {
   display: inline-block;

@@ -32,10 +32,11 @@ app.controller('dashboard', function($scope, skeletonFactory) {
 		if(storedData === null) {
 			skeletonFactory.getSkeleton().then(function(d){
 				$scope.dashboardItems = d;
-				$scope.dashboardItems = false;
+				$scope.dashboardItems.loading = false;
 			});
 		} else {
 			$scope.dashboardItems = storedData;
+			$scope.dashboardItems.loading = false;
 		}
 		
 	};
@@ -55,10 +56,11 @@ app.controller('menu', function($scope, skeletonFactory) {
 		if(storedData === null) {
 			skeletonFactory.getSkeleton().then(function(d){
 				$scope.navigation = d;
-				$scope.navigation = false;
+				$scope.navigation.loading = false;
 			});
 		} else {
 			$scope.navigation = storedData;
+			$scope.navigation.loading = false;
 		}
 	};
 
