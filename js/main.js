@@ -1,6 +1,18 @@
 var sessionStorageKeys = {
 	skeleton : 'skeleton_data'
 };
+
+var GLOBALCONTROLS = {
+	menu : function () {
+		var menu = $('#appMenu');
+		if (menu.hasClass('active')) {
+			menu.removeClass('active');
+		} else {
+			menu.addClass('active');
+		}
+	}
+};
+
 var app = angular.module('findMyFood', ['ui.router', 'filters']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
@@ -196,3 +208,10 @@ angular.module('filters', [])
 		};
 	}]
 );
+
+$(function() {
+	$('#hamburguerMenu').click(function(event) {
+		event.preventDefault();
+		GLOBALCONTROLS.menu();
+	});
+});

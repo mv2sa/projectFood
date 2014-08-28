@@ -159,6 +159,16 @@ body {
     margin-left: -5em;
     padding-top: 3em;
     z-index: 200;
+    -webkit-transition: margin 1s;
+    -moz-transition: margin 1s;
+    -o-transition: margin 1s;
+    transition: margin 1s;
+    -webkit-backface-visibility: hidden;
+    -webkit-transform-style: preserve-3d;
+}
+
+#appMenu.active {
+    margin-left: 0;
 }
 
 #appBody > header {
