@@ -189,6 +189,7 @@ body {
     line-height: 1.2em;
     width: 1.25em;
     text-align: center;
+    margin-right: 0.3em;
     text-decoration: none;
     display: inline-block;
     color: inherit;
@@ -213,6 +214,7 @@ body {
     text-align: center;
     line-height: 1.5em;
     margin: 0;
+    white-space: nowrap;
 }
 
 #appBody #mainSectionWrapper {
