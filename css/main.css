@@ -149,15 +149,21 @@ body {
     font-family: 'Open Sans', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
+
+body.activeMenu {
+    overflow: hidden;
 }
 
 #appMenu {
-    width: 5em;
+    width: 6em;
     background-color: #000;
+    text-align: center;
     color: #ccc;
     height: 100%;
     position: absolute;
-    margin-left: -5em;
+    margin-left: -6em;
     padding-top: 3em;
     z-index: 200;
     -webkit-transition: margin 1s;
@@ -170,9 +176,21 @@ body {
 
 #appMenu a {
     color: inherit;
+    text-decoration: none;
+    display: block;
+    padding: 0.5em;
+    border-bottom: 1px dashed #ccc;
 }
 
-#appMenu.active {
+#appMenu a > div {
+    font-size: 2.2em;
+}
+
+#appMenu a > p {
+    margin: 0.5em 0 0;
+}
+
+.activeMenu #appMenu {
     margin-left: 0;
 }
 
@@ -204,10 +222,10 @@ body {
     -webkit-transform-style: preserve-3d;
 }
 
-#hamburguerMenu.active {
+.activeMenu #hamburguerMenu {
     color: #000;
     background-color: #CCCCCC;
-    width: 2em;
+    width: 2.4em;
 }
 
 #appBody > header > h1 {

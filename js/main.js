@@ -4,14 +4,12 @@ var sessionStorageKeys = {
 
 var GLOBALCONTROLS = {
 	menu : function () {
-		var menu = $('#appMenu'),
-			hamburguer = $('#hamburguerMenu');
-		if (menu.hasClass('active')) {
-			menu.removeClass('active');
-			hamburguer.removeClass('active');
+		var body = $('body');
+
+		if (body.hasClass('activeMenu')) {
+			body.removeClass('activeMenu');
 		} else {
-			menu.addClass('active');
-			hamburguer.addClass('active');
+			body.addClass('activeMenu');
 		}
 	}
 };
