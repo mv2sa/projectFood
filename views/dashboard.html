@@ -3,7 +3,7 @@
         <p class="loading">
         </p>
     </div>
-    <a ui-sref="{{ dashboardItem.url }}" class="mainSection" ng-repeat="dashboardItem in dashboardItems.menu">
+    <a ui-sref="{{ dashboardItem.url }}" class="mainSection" ng-repeat="dashboardItem in dashboardItems.dashboard">
         <div class="mainSectionContent">
             <div class="icon" ng-bind-html="dashboardItem.icon | toHTML"></div>
             <h2>{{ dashboardItem.desc }}</h2>

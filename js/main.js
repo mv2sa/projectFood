@@ -92,11 +92,11 @@ app.controller('dashboard', function($scope, skeletonFactory) {
 		storedData = skeletonFactory.getStoredSkeleton();
 		if(storedData === null) {
 			skeletonFactory.getSkeleton().then(function(d){
-				$scope.dashboardItems = d;
+				$scope.dashboardItems.dashboard = d.dashboard;
 				$scope.dashboardItems.loading = false;
 			});
 		} else {
-			$scope.dashboardItems = storedData;
+			$scope.dashboardItems.dashboard = storedData.dashboard;
 			$scope.dashboardItems.loading = false;
 		}
 		
@@ -105,8 +105,9 @@ app.controller('dashboard', function($scope, skeletonFactory) {
 	init();
 });
 
-app.controller('menu', function($scope, skeletonFactory) {
+app.controller('menu', function($scope, $location, skeletonFactory) {
 	$scope.navigation = {
+		path : $location.path(),
 		loading : true
 	};
 
@@ -116,11 +117,11 @@ app.controller('menu', function($scope, skeletonFactory) {
 		storedData = skeletonFactory.getStoredSkeleton();
 		if(storedData === null) {
 			skeletonFactory.getSkeleton().then(function(d){
-				$scope.navigation = d;
+				$scope.navigation.menu = d.menu;
 				$scope.navigation.loading = false;
 			});
 		} else {
-			$scope.navigation = storedData;
+			$scope.navigation.menu = storedData.menu;
 			$scope.navigation.loading = false;
 		}
 	};

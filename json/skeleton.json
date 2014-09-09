@@ -1,6 +1,33 @@
 {
 	"menu" : [
 		{
+			"icon" : "&#xf1ae;",
+			"url" : "dashboard",
+			"desc" : "Dashboard"
+		},
+		{
+			"icon" : "&#xf1b1;",
+			"url" : "findIt",
+			"desc" : "Find me food!!!"
+		},
+		{
+			"icon" : "&#xf1de;",
+			"url" : "configure",
+			"desc" : "Configure"
+		},
+		{
+			"icon" : "&#xf080;",
+			"url" : "history",
+			"desc" : "Your History"
+		},
+		{
+			"icon" : "&#xf164;",
+			"url" : "aboutIt",
+			"desc" : "More about it"
+		}
+	],
+	"dashboard" : [
+		{
 			"icon" : "&#xf1b1;",
 			"url" : "findIt",
 			"desc" : "Find me food!!!"

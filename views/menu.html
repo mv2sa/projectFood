@@ -1,4 +1,4 @@
-<a ui-sref="{{ menuItem.url }}" ng-repeat="menuItem in navigation.menu">
+<a ui-sref="{{ menuItem.url }}" ng-repeat="menuItem in navigation.menu" ng-if="navigation.path !== '/'+menuItem.url+'/'"> 
     <div class="icon" ng-bind-html="menuItem.icon | toHTML"></div>
     <p>{{ menuItem.desc }}</p>
 </a>
