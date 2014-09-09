@@ -158,6 +158,11 @@ body.activeMenu {
     overflow: hidden;
 }
 
+main {
+    min-height: 30em;
+    background-color: #fff;
+}
+
 a {
     color: inherit;
 }
@@ -296,6 +301,7 @@ a {
 
 .bigButtonWrapper {
     position: relative;
+    font-size: 130%;
     margin: 3.5em auto;
     width: 12em;
     height: 12em;
@@ -357,8 +363,10 @@ a {
 
 .findItDesc {
     padding: 0.5em;
-    font-size: 1.5em;
+    font-size: 1.7em;
     text-align: center;
+    font-weight: bold;
+    margin: 0 0 3em;
 }
 
 #appBody > footer {
