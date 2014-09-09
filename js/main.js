@@ -81,6 +81,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	});
 });
 
+app.run(function($rootScope, $urlRouter) {
+	$rootScope.$on('$locationChangeSuccess', function(evt) {
+		angular.element('body').removeClass('activeMenu');
+	});
+});
+
 app.controller('dashboard', function($scope, skeletonFactory) {
 	$scope.dashboardItems = {
 		loading : true
