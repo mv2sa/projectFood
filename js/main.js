@@ -135,6 +135,20 @@ app.controller('menu', function($scope, $location, skeletonFactory) {
 	init();
 });
 
+app.controller('findIt', function($scope, trackPosition) {
+	$scope.findIt = {
+		position : false,
+		loading : true
+	};
+
+	$scope.bigRedButton = function() {
+		trackPosition.getCoords().then(function(d) {
+			console.log(d);
+		});
+	};
+
+});
+
 app.factory('skeletonFactory', function($http, $window) {
 
 	var factory = {};
@@ -157,6 +171,60 @@ app.factory('skeletonFactory', function($http, $window) {
 
 	return factory;
 });
+
+app.factory('trackPosition', ['$q', '$window', '$rootScope', function ($q, $window, $rootScope) {
+
+	var factory = {};
+
+	factory.getCoords = function() {
+		var deferred = $q.defer();
+		if (Modernizr.geolocation) {
+            $window.navigator.geolocation.getCurrentPosition(function (position) {
+                $rootScope.$apply(function() {
+                    deferred.resolve([position.coords.latitude, position.coords.longitude]);
+                });
+            }, function (error) {
+                $rootScope.$apply(function() {
+                    deferred.reject(error);
+                });
+            });
+		} else {
+            $rootScope.$apply(function() {
+                deferred.reject(new Error("Geolocation is not supported"));
+            });
+		}
+		return deferred.promise;
+	};
+
+	return factory;
+
+}]);
+
+app.factory('googlePlaces', ['$q', '$window', '$rootScope', function ($q, $window, $rootScope) {
+
+	var factory = {};
+
+	factory.getPlaces = function(map, coords, area, interests) {
+
+		var deferred = $q.defer();
+		var service = new google.maps.places.PlacesService(map);
+		service.nearbySearch({location : coords, radius : area, types : interests}, function(results, status) {
+			if (status == google.maps.places.PlacesServiceStatus.OK) {
+                $rootScope.$apply(function() {
+                    deferred.resolve(results);
+                });
+			} else if (status == google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+				deferred.reject('Nothing Found');
+			} else {
+				deferred.reject('Service Unavailable');
+			}	
+		});
+		return deferred.promise;
+	};
+
+	return factory;
+
+}]);
 
 angular.module('filters', [])
 	.filter('underscoreToSpace', function () {
