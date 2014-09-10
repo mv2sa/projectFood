@@ -167,7 +167,7 @@ a {
     width: 6em;
     background-color: #000;
     text-align: center;
-    color: #ccc;
+    color: #fff;
     height: 100%;
     position: absolute;
     margin-left: -6em;
@@ -186,7 +186,7 @@ a {
     text-decoration: none;
     display: block;
     padding: 0.5em;
-    border-bottom: 1px dashed #ccc;
+    border-bottom: 1px dashed #fff;
 }
 
 #appMenu a > div {
@@ -206,7 +206,7 @@ a {
     background-color: #000;
     height: 3em; 
     z-index: 300; 
-    color: #CCCCCC;
+    color: #fff;
 }
 
 #hamburguerMenu {
@@ -220,7 +220,7 @@ a {
     color: inherit;
     float: left;
     padding: 0 0.3em;
-    border-right: solid 2px #CCCCCC;
+    border-right: solid 2px #fff;
     -webkit-transition: width 1s;
     -moz-transition: width 1s;
     -o-transition: width 1s;
@@ -231,7 +231,7 @@ a {
 
 .activeMenu #hamburguerMenu {
     color: #000;
-    background-color: #CCCCCC;
+    background-color: #fff;
     width: 2.4em;
 }
 
@@ -252,25 +252,25 @@ a {
     height: 18em;
     background-color: #003366;
     display: table-row;
-    color: #CCCCCC;
+    color: #fff;
     text-align: center;
     text-decoration: none;
     margin: 0;
 }
 
 #appBody .mainSection:nth-child(even) {
-    background-color: #CCCCCC;
+    background-color: #fff;
     color: #003366;
 }
 
 #appBody .mainSection.revertZebra {
-    background-color: #CCCCCC;
+    background-color: #fff;
     color: #003366;
 }
 
 #appBody .mainSection.revertZebra:nth-child(even) {
     background-color: #003366;
-    color: #CCCCCC;
+    color: #fff;
 }
 
 #appBody .mainSection .loading {

@@ -135,17 +135,41 @@ app.controller('menu', function($scope, $location, skeletonFactory) {
 	init();
 });
 
-app.controller('findIt', function($scope, trackPosition) {
+app.controller('findIt', function($scope, $window, trackPosition) {
 	$scope.findIt = {
 		position : false,
-		loading : true
+		map : false,
+		showMap : false,
+		loading : false
 	};
 
 	$scope.bigRedButton = function() {
 		trackPosition.getCoords().then(function(d) {
-			console.log(d);
+			$scope.findIt.position = new google.maps.LatLng(d[0], d[1]);
+			$scope.findIt.loading = true;
+			$scope.maps = new google.maps.Map(document.getElementById('maps'), {
+		    	center: $scope.coords,
+		    	zoom: 13
+		    });
+		    google.maps.event.addDomListener($window, "resize", function() {
+				resizeMap();
+			});
+			addYouMarker();
 		});
 	};
+
+	var init = function() {
+
+	    /*$scope.$watch('searchConfig.display', function() {
+			resizeMap();
+		});
+	    $scope.$watch('placeDetails.display', function() {
+			resizeMap();
+		});*/
+
+		
+	};
+
 
 });
 
