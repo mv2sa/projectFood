@@ -143,6 +143,8 @@ app.controller('findIt', function($scope, $window, trackPosition) {
 		loading : false
 	};
 
+	$scope.markers = [];
+
 	$scope.bigRedButton = function() {
 		trackPosition.getCoords().then(function(d) {
 			$scope.findIt.position = new google.maps.LatLng(d[0], d[1]);
@@ -156,6 +158,33 @@ app.controller('findIt', function($scope, $window, trackPosition) {
 			});
 			addYouMarker();
 		});
+	};
+
+	var getPlaces = function () {
+		googleMaps.getPlaces($scope.maps, $scope.coords, 10/* radius */ * 1609.34, $scope.searchConfig.configuration.currentSet).then(function(d){
+			$scope.places = d;
+			if ($scope.places.error) {
+				// removeAllMarkers();
+				addYouMarker();
+			} else {
+				// addMarkers();
+			}
+		});
+	};
+
+	var addYouMarker = function () {
+		var marker = new google.maps.Marker({
+		    position: $scope.maps.getCenter(),
+		    map: $scope.maps,
+		    title: 'You'
+		});
+		$scope.markers.push(marker);
+	};
+
+	var resizeMap = function () {
+		var center = $scope.maps.getCenter();
+		google.maps.event.trigger($scope.maps, "resize");
+		$scope.maps.setCenter(center);
 	};
 
 	var init = function() {
