@@ -210,6 +210,7 @@ a {
 }
 
 #hamburguerMenu {
+    position: absolute;
     font-size: 2.5em;
     line-height: 1.2em;
     width: 1.25em;
@@ -218,8 +219,8 @@ a {
     text-decoration: none;
     display: inline-block;
     color: inherit;
-    float: left;
     padding: 0 0.3em;
+    background-color: #000; 
     border-right: solid 2px #fff;
     -webkit-transition: width 1s;
     -moz-transition: width 1s;
@@ -239,6 +240,7 @@ a {
     text-align: center;
     line-height: 1.5em;
     margin: 0;
+    padding-left: 2em;
     white-space: nowrap;
 }
 
