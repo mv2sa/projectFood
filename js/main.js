@@ -224,12 +224,11 @@ app.factory('trackPosition', ['$q', '$window', '$rootScope', function ($q, $wind
 
 }]);
 
-app.factory('googlePlaces', ['$q', '$window', '$rootScope', function ($q, $window, $rootScope) {
+app.factory('googleMaps', ['$q', '$rootScope', function ($q, $rootScope) {
 
 	var factory = {};
 
 	factory.getPlaces = function(map, coords, area, interests) {
-
 		var deferred = $q.defer();
 		var service = new google.maps.places.PlacesService(map);
 		service.nearbySearch({location : coords, radius : area, types : interests}, function(results, status) {
@@ -246,8 +245,32 @@ app.factory('googlePlaces', ['$q', '$window', '$rootScope', function ($q, $windo
 		return deferred.promise;
 	};
 
-	return factory;
+	factory.getPlaceDetail = function(map, id) {
+		var deferred = $q.defer();
+		var service = new google.maps.places.PlacesService(map);
+		service.getDetails({placeId : id}, function(results, status) {
+			if (status == google.maps.places.PlacesServiceStatus.OK) {
+				if (results.photos) {
+					for (var i = 0; results.photos.length > i; i++) {
+						results.photos[i].photoSmall = results.photos[i].getUrl({'maxWidth': 100, 'maxHeight': 100});
+						results.photos[i].photoBig = results.photos[i].getUrl({'maxWidth': 600, 'maxHeight': 600});
+					}
+				}
+				results.overlayImage = false;
+				results.overlayRatings = false;
+                $rootScope.$apply(function() {
+                    deferred.resolve(results);
+                });
+			} else if (status == google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+				deferred.reject({error : 'Nothing Found'});
+			} else {
+				deferred.reject({error : 'Service Unavailable'});
+			}
+		});
+		return deferred.promise;
+	};
 
+	return factory;
 }]);
 
 angular.module('filters', [])
