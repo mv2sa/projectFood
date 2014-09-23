@@ -2,18 +2,6 @@ var sessionStorageKeys = {
 	skeleton : 'skeleton_data'
 };
 
-var GLOBALCONTROLS = {
-	menu : function () {
-		var body = $('body');
-
-		if (body.hasClass('activeMenu')) {
-			body.removeClass('activeMenu');
-		} else {
-			body.addClass('activeMenu');
-		}
-	}
-};
-
 var app = angular.module('findMyFood', ['ui.router', 'filters']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
@@ -83,7 +71,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 app.run(function($rootScope, $urlRouter) {
 	$rootScope.$on('$locationChangeSuccess', function(evt) {
-		angular.element('body').removeClass('activeMenu');
+		angular.element(document.getElementsByTagName('body')).removeClass('activeMenu');
 	});
 });
 
@@ -119,6 +107,16 @@ app.controller('menu', function($scope, $location, skeletonFactory) {
 
 	var init = function() {
 		var storedData;
+
+		angular.element(document.getElementById('hamburguerMenu')).on('click', function(event) {
+			event.preventDefault();
+			var body = document.getElementsByTagName('body');
+			if (angular.element(body).hasClass('activeMenu')) {
+				angular.element(body).removeClass('activeMenu');
+			} else {
+				angular.element(body).addClass('activeMenu');
+			}
+		});
 
 		storedData = skeletonFactory.getStoredSkeleton();
 		if(storedData === null) {
@@ -360,10 +358,3 @@ angular.module('filters', [])
 		};
 	}]
 );
-
-$(function() {
-	$('#hamburguerMenu').click(function(event) {
-		event.preventDefault();
-		GLOBALCONTROLS.menu();
-	});
-});
