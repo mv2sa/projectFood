@@ -2,15 +2,17 @@
     <div class="mainSection revertZebra">
     	<div id="maps" ng-show="findIt.showMap">
         </div>
-    	<div class="bigButtonWrapper">
-			<a href="" class="bigButton" ng-click="bigRedButton();">
-				<p>
-					Find It
-				</p>
-			</a>
-			<div class="bigButtonShadow">
+        <div ng-show="!findIt.showMap">
+	    	<div class="bigButtonWrapper">
+				<a href="" class="bigButton" ng-click="bigRedButton();">
+					<p>
+						Find It
+					</p>
+				</a>
+				<div class="bigButtonShadow">
+				</div>
 			</div>
+			<p class="findItDesc">Click the big red button to find where your food is</p>
 		</div>
-		<p class="findItDesc">Click the big red button to find where your food is</p>
     </div>
 </div>

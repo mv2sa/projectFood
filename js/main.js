@@ -69,9 +69,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	});
 });
 
-app.run(function($rootScope, $urlRouter) {
+app.run(function($rootScope, $urlRouter, $window) {
 	$rootScope.$on('$locationChangeSuccess', function(evt) {
-		angular.element(document.getElementsByTagName('body')).removeClass('activeMenu');
+		angular.element($window.document.getElementsByTagName('body')).removeClass('activeMenu');
 	});
 });
 
@@ -99,7 +99,7 @@ app.controller('dashboard', function($scope, skeletonFactory) {
 	init();
 });
 
-app.controller('menu', function($scope, $location, skeletonFactory) {
+app.controller('menu', function($scope, $location, $window, skeletonFactory) {
 	$scope.navigation = {
 		path : $location.path(),
 		loading : true
@@ -108,9 +108,9 @@ app.controller('menu', function($scope, $location, skeletonFactory) {
 	var init = function() {
 		var storedData;
 
-		angular.element(document.getElementById('hamburguerMenu')).on('click', function(event) {
+		angular.element($window.document.getElementById('hamburguerMenu')).on('click', function(event) {
 			event.preventDefault();
-			var body = document.getElementsByTagName('body');
+			var body = $window.document.getElementsByTagName('body');
 			if (angular.element(body).hasClass('activeMenu')) {
 				angular.element(body).removeClass('activeMenu');
 			} else {
@@ -133,59 +133,115 @@ app.controller('menu', function($scope, $location, skeletonFactory) {
 	init();
 });
 
-app.controller('findIt', function($scope, $window, trackPosition) {
+app.controller('findIt', function($scope, $window, trackPosition, windowSizes, googleMaps) {
 	$scope.findIt = {
 		position : false,
 		map : false,
 		showMap : false,
-		loading : false
+		loading : false,
+		configuration : [],
+		markers : [],
+		places : false,
+		screenHeight : 0
 	};
-
-	$scope.markers = [];
 
 	$scope.bigRedButton = function() {
 		trackPosition.getCoords().then(function(d) {
 			$scope.findIt.position = new google.maps.LatLng(d[0], d[1]);
 			$scope.findIt.loading = true;
-			$scope.maps = new google.maps.Map(document.getElementById('maps'), {
-		    	center: $scope.coords,
-		    	zoom: 13
-		    });
-		    google.maps.event.addDomListener($window, "resize", function() {
-				resizeMap();
-			});
+			if ($scope.findIt.map === false) {
+				$scope.findIt.map = new google.maps.Map($window.document.getElementById('maps'), {
+			    	center: $scope.findIt.position,
+			    	zoom: 13
+			    });
+			    google.maps.event.addDomListener($window, "resize", function() {
+					resizeMap();
+				});
+				$scope.findIt.screenHeight = windowSizes.getWindowHeight();
+				angular.element($window).bind('resize', function() {
+  					$scope.findIt.screenHeight = windowSizes.getWindowHeight() - 48 - 38;
+  				});
+			} else {
+				$scope.findIt.map.setCenter($scope.findIt.position);
+				$scope.findIt.map.setZoom(13);
+				removeAllMarkers();
+			}
 			addYouMarker();
+			$scope.findIt.showMap = true;
+			resizeMap();
 		});
 	};
 
 	var getPlaces = function () {
-		googleMaps.getPlaces($scope.maps, $scope.coords, 10/* radius */ * 1609.34, $scope.searchConfig.configuration.currentSet).then(function(d){
-			$scope.places = d;
-			if ($scope.places.error) {
+		googleMaps.getPlaces($scope.findIt.map, $scope.findIt.position, 10/* radius */ * 1609.34, $scope.findIt.configuration).then(function(d){
+			$scope.findIt.places = d;
+			if ($scope.findIt.places.error) {
 				// removeAllMarkers();
 				addYouMarker();
 			} else {
 				// addMarkers();
 			}
+
 		});
 	};
 
 	var addYouMarker = function () {
 		var marker = new google.maps.Marker({
-		    position: $scope.maps.getCenter(),
-		    map: $scope.maps,
+		    position: $scope.findIt.map.getCenter(),
+		    map: $scope.findIt.map,
 		    title: 'You'
 		});
-		$scope.markers.push(marker);
+		$scope.findIt.markers.push(marker);
+	};
+
+	var addMarkers = function () {
+		// for (var i = 0; i < $scope.places.length; i++) {
+		// 	var marker = new google.map.Marker({
+		// 		map: $scope.maps,
+		// 		animation: google.maps.Animation.DROP,
+		// 		icon: new google.maps.MarkerImage(
+  //       			'http://maps.google.com/mapfiles/kml/paddle/' + String.fromCharCode(i + 65) + '.png',
+  //       			new google.maps.Size(30, 30),
+  //       			new google.maps.Point(0, 0),
+  //       			new google.maps.Point(15, 15),
+  //       			new google.maps.Size(30, 30)
+		// 	    ),
+		// 		position: $scope.places[i].geometry.location,
+		// 		title: $scope.places[i].name
+		// 	});
+		// 	var markerClickEvent = google.maps.event.addListener(marker, 'click', function(id, index) {
+		// 		return function() {$scope.showDetails(index, id);$scope.$digest();}
+		// 	}($scope.places[i].place_id, i+1));
+		// 	$scope.markers.push(marker);
+		// 	$scope.markersListeners.push(markerClickEvent);
+		// }
+	};
+
+	var removeAllMarkers = function () {
+		for (var i = 0; i < $scope.findIt.markers.length; i++) {
+			$scope.findIt.markers[i].setMap(null);
+		}
+		$scope.findIt.markers = [];
+		// for (var i = 0; i < $scope.markersListeners.length; i++) {
+		// 	google.maps.event.removeListener($scope.markersListeners[i]);
+		// }
+		// $scope.markersListeners = [];
 	};
 
 	var resizeMap = function () {
-		var center = $scope.maps.getCenter();
-		google.maps.event.trigger($scope.maps, "resize");
-		$scope.maps.setCenter(center);
+		var center = $scope.findIt.map.getCenter();
+		google.maps.event.trigger($scope.findIt.map, 'resize');
+		$scope.findIt.map.setCenter(center);
 	};
 
 	var init = function() {
+
+		$scope.$watch('findIt.screenHeight', function() {
+			if ($scope.findIt.showMap) {
+				angular.element($window.document.getElementById('maps')).css('height', $scope.findIt.screenHeight + 'px');
+				resizeMap();
+			}
+		});
 
 	    /*$scope.$watch('searchConfig.display', function() {
 			resizeMap();
@@ -196,6 +252,8 @@ app.controller('findIt', function($scope, $window, trackPosition) {
 
 		
 	};
+
+	init();
 
 
 });
@@ -298,6 +356,46 @@ app.factory('googleMaps', ['$q', '$rootScope', function ($q, $rootScope) {
 	};
 
 	return factory;
+}]);
+
+app.factory('windowSizes', ['$window', '$rootScope', function ($window, $rootScope) {
+
+	var factory = {};
+
+	factory.getWindowWidth = function() {
+		var screenWidth;
+		$rootScope.onResize = function() {
+			$rootScope.windowWidth = $window.innerWidth || $window.document.documentElement.clientWidth || $window.document.getElementsByTagName('body')[0].clientWidth;
+		};
+		$rootScope.onResize();
+		$rootScope.screenWidth = $rootScope.windowWidth;
+		angular.element($window).bind('resize', function() {
+			$rootScope.onResize();
+			$rootScope.$apply(function(){
+				$rootScope.screenWidth = $rootScope.windowWidth;
+			});
+		});
+		return $rootScope.screenWidth;
+	};
+
+	factory.getWindowHeight = function() {
+		var screenHeight;
+		$rootScope.onResize = function() {
+			$rootScope.windowHeight = $window.innerHeight || $window.document.documentElement.clientHeight || $window.document.getElementsByTagName('body')[0].clientHeight;
+		};
+		$rootScope.onResize();
+		$rootScope.screenHeight = $rootScope.windowHeight;
+		angular.element($window).bind('resize', function() {
+			$rootScope.onResize();
+			$rootScope.$apply(function(){
+				$rootScope.screenHeight = $rootScope.windowHeight;
+			});
+		});
+		return $rootScope.screenHeight;
+	};
+
+	return factory;
+
 }]);
 
 angular.module('filters', [])

@@ -367,6 +367,10 @@ a {
     margin: 0 0 3em;
 }
 
+#maps {
+    min-height: 30em;
+}
+
 #appBody > footer {
     background-color: #000; 
     color: #666;
