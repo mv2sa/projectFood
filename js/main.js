@@ -133,11 +133,13 @@ app.controller('menu', function($scope, $location, $window, skeletonFactory) {
 	init();
 });
 
-app.controller('findIt', function($scope, $window, trackPosition, windowSizes, googleMaps) {
+app.controller('findIt', function($scope, $window, trackPosition, googleMaps) {
 	$scope.findIt = {
 		position : false,
 		map : false,
 		showMap : false,
+		showInitial : true,
+		showOverlay : false,
 		loading : false,
 		configuration : [],
 		markers : [],
@@ -157,10 +159,6 @@ app.controller('findIt', function($scope, $window, trackPosition, windowSizes, g
 			    google.maps.event.addDomListener($window, "resize", function() {
 					resizeMap();
 				});
-				$scope.findIt.screenHeight = windowSizes.getWindowHeight();
-				angular.element($window).bind('resize', function() {
-  					$scope.findIt.screenHeight = windowSizes.getWindowHeight() - 48 - 38;
-  				});
 			} else {
 				$scope.findIt.map.setCenter($scope.findIt.position);
 				$scope.findIt.map.setZoom(13);
@@ -168,6 +166,8 @@ app.controller('findIt', function($scope, $window, trackPosition, windowSizes, g
 			}
 			addYouMarker();
 			$scope.findIt.showMap = true;
+			$scope.findIt.showInitial = false;
+			$scope.findIt.showOverlay = true;
 			resizeMap();
 		});
 	};
@@ -234,23 +234,20 @@ app.controller('findIt', function($scope, $window, trackPosition, windowSizes, g
 		$scope.findIt.map.setCenter(center);
 	};
 
+	var adjustHeight = function(elements) {
+		var windowHeight = $window.innerHeight || $window.document.documentElement.clientHeight || $window.document.getElementsByTagName('body')[0].clientHeight;
+		for (var i = 0; i < elements.length; i++) {
+			angular.element(elements[i]).css('height', (windowHeight - 48 - 38) + 'px');
+		}
+	};
+
 	var init = function() {
 
-		$scope.$watch('findIt.screenHeight', function() {
-			if ($scope.findIt.showMap) {
-				angular.element($window.document.getElementById('maps')).css('height', $scope.findIt.screenHeight + 'px');
-				resizeMap();
-			}
+		adjustHeight($window.document.querySelectorAll('.makeItFit'));
+		angular.element($window).bind('resize', function() {
+			adjustHeight($window.document.querySelectorAll('.makeItFit'));
 		});
 
-	    /*$scope.$watch('searchConfig.display', function() {
-			resizeMap();
-		});
-	    $scope.$watch('placeDetails.display', function() {
-			resizeMap();
-		});*/
-
-		
 	};
 
 	init();
@@ -356,46 +353,6 @@ app.factory('googleMaps', ['$q', '$rootScope', function ($q, $rootScope) {
 	};
 
 	return factory;
-}]);
-
-app.factory('windowSizes', ['$window', '$rootScope', function ($window, $rootScope) {
-
-	var factory = {};
-
-	factory.getWindowWidth = function() {
-		var screenWidth;
-		$rootScope.onResize = function() {
-			$rootScope.windowWidth = $window.innerWidth || $window.document.documentElement.clientWidth || $window.document.getElementsByTagName('body')[0].clientWidth;
-		};
-		$rootScope.onResize();
-		$rootScope.screenWidth = $rootScope.windowWidth;
-		angular.element($window).bind('resize', function() {
-			$rootScope.onResize();
-			$rootScope.$apply(function(){
-				$rootScope.screenWidth = $rootScope.windowWidth;
-			});
-		});
-		return $rootScope.screenWidth;
-	};
-
-	factory.getWindowHeight = function() {
-		var screenHeight;
-		$rootScope.onResize = function() {
-			$rootScope.windowHeight = $window.innerHeight || $window.document.documentElement.clientHeight || $window.document.getElementsByTagName('body')[0].clientHeight;
-		};
-		$rootScope.onResize();
-		$rootScope.screenHeight = $rootScope.windowHeight;
-		angular.element($window).bind('resize', function() {
-			$rootScope.onResize();
-			$rootScope.$apply(function(){
-				$rootScope.screenHeight = $rootScope.windowHeight;
-			});
-		});
-		return $rootScope.screenHeight;
-	};
-
-	return factory;
-
 }]);
 
 angular.module('filters', [])

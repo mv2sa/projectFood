@@ -1,8 +1,10 @@
 <div id="mainSectionWrapper">
     <div class="mainSection revertZebra">
-    	<div id="maps" ng-show="findIt.showMap">
+    	<div id="maps" class="makeItFit" ng-show="findIt.showMap">
         </div>
-        <div ng-show="!findIt.showMap">
+        <div id="findItOverlay" class="makeItFit" ng-show="findIt.showOverlay">
+        </div>
+        <div ng-show="findIt.showInitial" class="makeItFit">
 	    	<div class="bigButtonWrapper">
 				<a href="" class="bigButton" ng-click="bigRedButton();">
 					<p>

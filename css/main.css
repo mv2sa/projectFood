@@ -156,6 +156,7 @@ body {
 
 main {
     min-height: 30em;
+    position: relative;
     background-color: #fff;
 }
 
@@ -300,7 +301,7 @@ a {
 .bigButtonWrapper {
     position: relative;
     font-size: 130%;
-    margin: 3.5em auto;
+    margin: 0 auto;
     width: 12em;
     height: 12em;
     padding-top: 1em;
@@ -369,6 +370,17 @@ a {
 
 #maps {
     min-height: 30em;
+    position: relative;
+    z-index: 1;
+}
+
+#findItOverlay {
+    z-index: 100;
+    top: 0;
+    width: 100%;
+    position: absolute;
+    background-color: #000;
+    opacity: 0.5;
 }
 
 #appBody > footer {
