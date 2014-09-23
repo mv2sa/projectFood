@@ -378,6 +378,7 @@ a {
     z-index: 100;
     top: 0;
     width: 100%;
+    min-height: 30em;
     position: absolute;
     background-color: #000;
     opacity: 0.5;
