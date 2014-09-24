@@ -143,7 +143,7 @@ app.controller('findIt', function($scope, $window, trackPosition, googleMaps) {
 		showOverlayLoading : false,
 		configuration : [],
 		markers : [],
-		places : false,
+		places : [],
 		screenHeight : 0
 	};
 
@@ -170,16 +170,17 @@ app.controller('findIt', function($scope, $window, trackPosition, googleMaps) {
 			$scope.findIt.showOverlay = true;
 			$scope.findIt.showOverlayLoading = true;
 			resizeMap();
+			getPlaces();
 		});
 	};
 
 	var getPlaces = function () {
-		googleMaps.getPlaces($scope.findIt.map, $scope.findIt.position, 10/* radius */ * 1609.34, $scope.findIt.configuration).then(function(d){
-			$scope.findIt.places = d;
+		googleMaps.getPlaces($scope.findIt.map, $scope.findIt.position, 10 * 1609.34, $scope.findIt.configuration, 2).then(function(d){
 			if ($scope.findIt.places.error) {
 				// removeAllMarkers();
 				addYouMarker();
 			} else {
+				$scope.findIt.places = d;
 				// addMarkers();
 			}
 
@@ -311,14 +312,29 @@ app.factory('googleMaps', ['$q', '$rootScope', function ($q, $rootScope) {
 
 	var factory = {};
 
-	factory.getPlaces = function(map, coords, area, interests) {
+	var places = [];
+
+	var placesIteration = 0;
+
+	factory.getPlaces = function(map, coords, area, interests, max) {
 		var deferred = $q.defer();
+		var i;
 		var service = new google.maps.places.PlacesService(map);
-		service.nearbySearch({location : coords, radius : area, types : interests}, function(results, status) {
+		service.nearbySearch({location : coords, radius : area, types : interests}, function(results, status, pagination) {
 			if (status == google.maps.places.PlacesServiceStatus.OK) {
-                $rootScope.$apply(function() {
-                    deferred.resolve(results);
-                });
+				for (i = 0; i < results.length; i++) { 
+					places.push(results[i]);
+				}
+				if(pagination.hasNextPage && placesIteration < max-1) {
+					placesIteration++;
+					pagination.nextPage();
+				} else {
+	                $rootScope.$apply(function() {
+	                    deferred.resolve(places);
+	                });
+	                placesIteration = 0;
+	                places = [];
+				}
 			} else if (status == google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
 				deferred.reject('Nothing Found');
 			} else {
