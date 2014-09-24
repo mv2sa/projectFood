@@ -140,6 +140,7 @@ app.controller('findIt', function($scope, $window, trackPosition, googleMaps) {
 		showMap : false,
 		showInitial : true,
 		showOverlay : false,
+		showPlaces : false,
 		showOverlayLoading : false,
 		configuration : [],
 		markers : [],
@@ -180,11 +181,42 @@ app.controller('findIt', function($scope, $window, trackPosition, googleMaps) {
 				// removeAllMarkers();
 				addYouMarker();
 			} else {
-				$scope.findIt.places = d;
+				randomizeMainList(d, 6);
 				// addMarkers();
 			}
-
 		});
+	};
+
+	var getRandomInt = function (min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+
+	var randomizeMainList = function (list, maxItems) {
+		var i, j, currentNumber, there
+			selectedList = [];
+		if (maxItems > list.length) {
+			maxItems = list.length;
+		}
+		//console.log(maxItems + "  " + list.length);
+		//$scope.findIt.places = list;
+		for (i = 0; i < maxItems; i++) {
+			//console.log(i);
+			there = false;
+			currentNumber = getRandomInt(0, list.length);
+			for (j = 0; j < selectedList.length; j++) {
+				if (currentNumber === selectedList[j]) {
+					there = true;
+				}
+			}
+			if (i === 0 || there === false) {
+				selectedList.push(currentNumber);
+			} else {
+				maxItems++;
+			}
+		}
+		console.log(selectedList);
+		$scope.findIt.showPlaces = true;
+		$scope.findIt.showOverlayLoading = false;
 	};
 
 	var addYouMarker = function () {
