@@ -376,12 +376,34 @@ a {
 
 #findItOverlay {
     z-index: 100;
-    top: 0;
     width: 100%;
     min-height: 30em;
     position: absolute;
-    background-color: #000;
+    top: 0;
+}
+
+.overlayBack {
     opacity: 0.5;
+    top: 0;
+    z-index: 101;
+    width: 100%;
+    min-height: 30em;
+    height: 100%;
+    position: absolute;
+    background-color: #000;
+}
+
+.overlayContent {
+    display: table;
+    height: 100%;
+    width: 100%;
+    z-index: 102;
+    position: relative;
+}
+
+.overlayContent .loading {
+    color: #fff;
+    text-align: center;
 }
 
 #appBody > footer {

@@ -140,7 +140,7 @@ app.controller('findIt', function($scope, $window, trackPosition, googleMaps) {
 		showMap : false,
 		showInitial : true,
 		showOverlay : false,
-		loading : false,
+		showOverlayLoading : false,
 		configuration : [],
 		markers : [],
 		places : false,
@@ -168,6 +168,7 @@ app.controller('findIt', function($scope, $window, trackPosition, googleMaps) {
 			$scope.findIt.showMap = true;
 			$scope.findIt.showInitial = false;
 			$scope.findIt.showOverlay = true;
+			$scope.findIt.showOverlayLoading = true;
 			resizeMap();
 		});
 	};
