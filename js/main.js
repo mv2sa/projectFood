@@ -137,21 +137,25 @@ app.controller('findIt', function($scope, $window, trackPosition, googleMaps) {
 	$scope.findIt = {
 		position : false,
 		map : false,
-		showMap : false,
-		showInitial : true,
-		showOverlay : false,
+		showMap : true,
+		showOverlay : true,
 		showPlaces : false,
-		showOverlayLoading : false,
+		showOverlayLoading : true,
 		configuration : [],
 		markers : [],
 		places : [],
 		screenHeight : 0
 	};
 
-	$scope.bigRedButton = function() {
+	var init = function() {
+
+		adjustHeight($window.document.querySelectorAll('.makeItFit'));
+		angular.element($window).bind('resize', function() {
+			adjustHeight($window.document.querySelectorAll('.makeItFit'));
+		});
+
 		trackPosition.getCoords().then(function(d) {
 			$scope.findIt.position = new google.maps.LatLng(d[0], d[1]);
-			$scope.findIt.loading = true;
 			if ($scope.findIt.map === false) {
 				$scope.findIt.map = new google.maps.Map($window.document.getElementById('maps'), {
 			    	center: $scope.findIt.position,
@@ -166,10 +170,6 @@ app.controller('findIt', function($scope, $window, trackPosition, googleMaps) {
 				removeAllMarkers();
 			}
 			addYouMarker();
-			$scope.findIt.showMap = true;
-			$scope.findIt.showInitial = false;
-			$scope.findIt.showOverlay = true;
-			$scope.findIt.showOverlayLoading = true;
 			resizeMap();
 			getPlaces();
 		});
@@ -275,14 +275,6 @@ app.controller('findIt', function($scope, $window, trackPosition, googleMaps) {
 		}
 	};
 
-	var init = function() {
-
-		adjustHeight($window.document.querySelectorAll('.makeItFit'));
-		angular.element($window).bind('resize', function() {
-			adjustHeight($window.document.querySelectorAll('.makeItFit'));
-		});
-
-	};
 
 	init();
 

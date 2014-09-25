@@ -150,7 +150,6 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
-    height: 100%;
     background-color: #000;
 }
 
@@ -296,76 +295,6 @@ a {
 #appBody .mainSection h2 {
     margin: 0;
     padding-top: 1em;
-}
-
-.bigButtonWrapper {
-    position: relative;
-    font-size: 130%;
-    margin: 0 auto;
-    width: 12em;
-    height: 12em;
-    padding-top: 1em;
-    -webkit-border-radius: 6em;
-    -moz-border-radius: 6em;
-    border-radius: 6em;
-    background: #666666; /* Old browsers */
-    background: -moz-radial-gradient(center, ellipse cover,  #666666 54%, #333333 99%); /* FF3.6+ */
-    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(54%,#666666), color-stop(99%,#333333)); /* Chrome,Safari4+ */
-    background: -webkit-radial-gradient(center, ellipse cover,  #666666 54%,#333333 99%); /* Chrome10+,Safari5.1+ */
-    background: -o-radial-gradient(center, ellipse cover,  #666666 54%,#333333 99%); /* Opera 12+ */
-    background: -ms-radial-gradient(center, ellipse cover,  #666666 54%,#333333 99%); /* IE10+ */
-    background: radial-gradient(ellipse at center,  #666666 54%,#333333 99%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#666666', endColorstr='#333333',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-}
-
-.bigButton,
-.bigButtonShadow {
-    -webkit-border-radius: 5em;
-    -moz-border-radius: 5em;
-    border-radius: 5em;
-    width: 10em;
-    height: 10em;
-    display: block;
-    margin: 0 auto;
-    z-index: 2;
-    position: relative;
-    text-decoration: none;
-}
-
-.bigButton {
-    border: 1px solid #520000; 
-    background: #8b0000; /* Old browsers */
-    background: -moz-radial-gradient(center, ellipse cover,  #8b0000 0%, #520000 75%, #520000 75%); /* FF3.6+ */
-    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#8b0000), color-stop(75%,#520000), color-stop(75%,#520000)); /* Chrome,Safari4+ */
-    background: -webkit-radial-gradient(center, ellipse cover,  #8b0000 0%,#520000 75%,#520000 75%); /* Chrome10+,Safari5.1+ */
-    background: -o-radial-gradient(center, ellipse cover,  #8b0000 0%,#520000 75%,#520000 75%); /* Opera 12+ */
-    background: -ms-radial-gradient(center, ellipse cover,  #8b0000 0%,#520000 75%,#520000 75%); /* IE10+ */
-    background: radial-gradient(ellipse at center,  #8b0000 0%,#520000 75%,#520000 75%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8b0000', endColorstr='#520000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
-}
-
-.bigButtonShadow {
-    position: absolute;
-    background-color: #000;
-    top: 1.1em;
-    left: 50%;
-    margin-left: -4.9em;
-    z-index: 1;
-}
-
-.bigButton p {
-    margin: 0;
-    color: #fff;
-    line-height: 5em;
-    font-size: 2em;
-}
-
-.findItDesc {
-    padding: 0.5em;
-    font-size: 1.7em;
-    text-align: center;
-    font-weight: bold;
-    margin: 0 0 3em;
 }
 
 #maps {
