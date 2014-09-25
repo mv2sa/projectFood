@@ -146,7 +146,7 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 		showOverlay : true,
 		showPlaces : false,
 		showOverlayLoading : true,
-		configuration : [ 'bakery', 'cafe', 'food', 'meal_delivery', 'meal_takeaway', 'restaurant' ],
+		configuration : [ 'cafe', 'restaurant' ],
 		markers : [],
 		places : [],
 		screenHeight : 0
@@ -224,7 +224,7 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 		}
 		$scope.findIt.showPlaces = true;
 		$scope.findIt.showOverlayLoading = false;
-		selectionAnimation(maxItems, false, 10);
+		selectionAnimation(maxItems, false, getRandomInt(7, 14));
 	};
 
 	var selectionAnimation = function (maxItems, lastItem, iteractions) {
@@ -245,7 +245,7 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 		if (randomTimes <= iteractions) {
 			$timeout(function () {
 				selectionAnimation(maxItems, randomPosition, iteractions);
-			}, 500);
+			}, getRandomInt(300, 700));
 		} else {
 			randomTimes = 0;
 			showFinalResult(randomPosition);
