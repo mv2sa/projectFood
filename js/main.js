@@ -208,7 +208,7 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 		iterator = maxItems;
 		for (i = 0; i < iterator; i++) {
 			there = false;
-			currentNumber = getRandomInt(0, list.length);
+			currentNumber = getRandomInt(0, list.length-1);
 			for (j = 0; j < selectedList.length; j++) {
 				if (currentNumber === selectedList[j]) {
 					there = true;
@@ -318,7 +318,7 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 			windowWidth = $window.innerWidth || $window.document.documentElement.clientWidth || $window.document.getElementsByTagName('body')[0].clientWidth,
 			heightSize;
 
-		if (windowWidth >= 768 || $scope.findIt.showPlaces === false) {
+		if (windowWidth >= 600 || $scope.findIt.showPlaces === false) {
 			heightSize = windowHeight - 48 - 38;
 		} else {
 			heightSize = (windowHeight - 48 - 38)/2;
