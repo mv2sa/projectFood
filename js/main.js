@@ -221,7 +221,7 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 			}
 		}
 		for (i = 0; i < selectedList.length; i++) {
-			$scope.findIt.places.push(list[selectedList[i]-1]);
+			$scope.findIt.places.push(list[selectedList[i]]);
 		}
 		addMarkers();
 		$scope.findIt.showPlaces = true;
@@ -244,7 +244,6 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 		}
 		angular.element(el2).removeClass('active');
 		angular.element(el2[randomPosition]).addClass('active');
-		centerOnMap(randomPosition+1);
 		randomTimes++;
 		if (randomTimes <= iteractions) {
 			$timeout(function () {
@@ -257,7 +256,7 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 	};
 
 	var showFinalResult = function (result) {
-
+		centerOnMap(result+1);
 	};
 
 	var centerOnMap = function (id) {

@@ -333,17 +333,20 @@ a {
 }
 
 #placeSelectorWrapper {
-    display: block;
+    display: table;
     width: 100%;
 }
 
 .placesSelector {
-    background-color: #fff;
+    display: table-cell;
+    vertical-align: middle;
+    background-color: #222;
 }
 
 .placesSelector > .place {
     width: 100%;
     border-bottom: 1px solid #000;
+    background-color: #fff;
 }
 
 .placesSelector > .place:last-child {
@@ -354,10 +357,15 @@ a {
     padding: 1em 0;
     margin: 0;
     font-size: 1em;
+    color: #003366;
 }
 
 .placesSelector > .place.active {
-    background-color: green;
+    background-color: #003366;
+}
+
+.placesSelector > .place.active > h2 {
+    color: #fff;
 }
 
 #appBody > footer {
