@@ -1,19 +1,19 @@
 <div id="mainSectionWrapper">
     <div class="mainSection revertZebra">
-    	<div id="maps" class="makeItFit" ng-show="findIt.showMap">
+    	<div id="maps" class="makeItFit"  ng-class="{halfScreen : findIt.showPlaces}" ng-show="findIt.showMap">
         </div>
         <div id="findItOverlay" class="makeItFit" ng-show="findIt.showOverlay">
         	<div class="overlayContent">
         		<p class="loading" ng-show="findIt.showOverlayLoading"></p>
-        		<div id="placeSelectorWrapper" ng-show="findIt.showPlaces">
-        			<div class="placesSelector">
-	        			<div class="place" ng-repeat="place in findIt.places">
-	        				<h2>{{ place.name }}</h2>
-	        			</div>
-        			</div>
-        		</div>
         	</div>
         	<div class="overlayBack"></div>
         </div>
+		<div id="placeSelectorWrapper" class="makeItFit" ng-show="findIt.showPlaces">
+			<div class="placesSelector">
+				<div class="place" ng-repeat="place in findIt.places">
+					<h2>{{ place.name }}</h2>
+				</div>
+			</div>
+		</div>
     </div>
 </div>

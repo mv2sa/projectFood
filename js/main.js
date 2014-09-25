@@ -155,12 +155,10 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 	var randomTimes = 0;
 
 	var init = function() {
-
 		adjustHeight($window.document.querySelectorAll('.makeItFit'));
 		angular.element($window).bind('resize', function() {
 			adjustHeight($window.document.querySelectorAll('.makeItFit'));
 		});
-
 		trackPosition.getCoords().then(function(d) {
 			$scope.findIt.position = new google.maps.LatLng(d[0], d[1]);
 			if ($scope.findIt.map === false) {
@@ -169,6 +167,10 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 			    	zoom: 13
 			    });
 			    google.maps.event.addDomListener($window, "resize", function() {
+					resizeMap();
+				});
+				$scope.$watch('findIt.showPlaces', function() {
+					adjustHeight($window.document.querySelectorAll('.makeItFit'));
 					resizeMap();
 				});
 			} else {
@@ -185,11 +187,10 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 	var getPlaces = function () {
 		googleMaps.getPlaces($scope.findIt.map, $scope.findIt.position, 10 * 1609.34, $scope.findIt.configuration, 2).then(function(d){
 			if ($scope.findIt.places.error) {
-				// removeAllMarkers();
+				removeAllMarkers();
 				addYouMarker();
 			} else {
 				randomizeMainList(d, 6);
-				// addMarkers();
 			}
 		});
 	};
@@ -222,7 +223,9 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 		for (i = 0; i < selectedList.length; i++) {
 			$scope.findIt.places.push(list[selectedList[i]-1]);
 		}
+		addMarkers();
 		$scope.findIt.showPlaces = true;
+		$scope.findIt.showOverlay = false;
 		$scope.findIt.showOverlayLoading = false;
 		selectionAnimation(maxItems, false, getRandomInt(7, 14));
 	};
@@ -241,6 +244,7 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 		}
 		angular.element(el2).removeClass('active');
 		angular.element(el2[randomPosition]).addClass('active');
+		centerOnMap(randomPosition+1);
 		randomTimes++;
 		if (randomTimes <= iteractions) {
 			$timeout(function () {
@@ -256,6 +260,17 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 
 	};
 
+	var centerOnMap = function (id) {
+		if (typeof id === "number") {
+			if (id <= $scope.findIt.markers.length){
+				$scope.findIt.map.setCenter(
+					$scope.findIt.markers[id].position
+				);
+				//$scope.findIt.map.setZoom(16);
+			}
+		}
+	};
+
 	var addYouMarker = function () {
 		var marker = new google.maps.Marker({
 		    position: $scope.findIt.map.getCenter(),
@@ -266,26 +281,20 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 	};
 
 	var addMarkers = function () {
-		// for (var i = 0; i < $scope.places.length; i++) {
-		// 	var marker = new google.map.Marker({
-		// 		map: $scope.maps,
-		// 		animation: google.maps.Animation.DROP,
-		// 		icon: new google.maps.MarkerImage(
-  //       			'http://maps.google.com/mapfiles/kml/paddle/' + String.fromCharCode(i + 65) + '.png',
-  //       			new google.maps.Size(30, 30),
-  //       			new google.maps.Point(0, 0),
-  //       			new google.maps.Point(15, 15),
-  //       			new google.maps.Size(30, 30)
-		// 	    ),
-		// 		position: $scope.places[i].geometry.location,
-		// 		title: $scope.places[i].name
-		// 	});
-		// 	var markerClickEvent = google.maps.event.addListener(marker, 'click', function(id, index) {
-		// 		return function() {$scope.showDetails(index, id);$scope.$digest();}
-		// 	}($scope.places[i].place_id, i+1));
-		// 	$scope.markers.push(marker);
-		// 	$scope.markersListeners.push(markerClickEvent);
-		// }
+		var i, marker;
+		for (i = 0; i < $scope.findIt.places.length; i++) {
+			marker = new google.maps.Marker({
+				map: $scope.findIt.map,
+				animation: google.maps.Animation.DROP,
+				position: $scope.findIt.places[i].geometry.location,
+				title: $scope.findIt.places[i].name
+			});
+			// var markerClickEvent = google.maps.event.addListener(marker, 'click', function(id, index) {
+			// 	return function() {$scope.showDetails(index, id);$scope.$digest();}
+			// }($scope.places[i].place_id, i+1));
+			$scope.findIt.markers.push(marker);
+			//$scope.markersListeners.push(markerClickEvent);
+		}
 	};
 
 	var removeAllMarkers = function () {
@@ -306,9 +315,18 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 	};
 
 	var adjustHeight = function(elements) {
-		var windowHeight = $window.innerHeight || $window.document.documentElement.clientHeight || $window.document.getElementsByTagName('body')[0].clientHeight;
+		var windowHeight = $window.innerHeight || $window.document.documentElement.clientHeight || $window.document.getElementsByTagName('body')[0].clientHeight,
+			windowWidth = $window.innerWidth || $window.document.documentElement.clientWidth || $window.document.getElementsByTagName('body')[0].clientWidth,
+			heightSize;
+
+		if (windowWidth >= 768 || $scope.findIt.showPlaces === false) {
+			heightSize = windowHeight - 48 - 38;
+		} else {
+			heightSize = (windowHeight - 48 - 38)/2;
+		}
+		
 		for (var i = 0; i < elements.length; i++) {
-			angular.element(elements[i]).css('height', (windowHeight - 48 - 38) + 'px');
+			angular.element(elements[i]).css('height', heightSize + 'px');
 		}
 	};
 

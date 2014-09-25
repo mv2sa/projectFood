@@ -298,7 +298,6 @@ a {
 }
 
 #maps {
-    min-height: 30em;
     position: relative;
     z-index: 1;
 }
@@ -306,7 +305,6 @@ a {
 #findItOverlay {
     z-index: 100;
     width: 100%;
-    min-height: 30em;
     position: absolute;
     top: 0;
 }
@@ -316,7 +314,6 @@ a {
     top: 0;
     z-index: 101;
     width: 100%;
-    min-height: 30em;
     height: 100%;
     position: absolute;
     background-color: #000;
@@ -336,13 +333,11 @@ a {
 }
 
 #placeSelectorWrapper {
-    display: table-cell;
-    vertical-align: middle;
+    display: block;
+    width: 100%;
 }
 
 .placesSelector {
-    width: 30em;
-    margin: 0 auto;
     background-color: #fff;
 }
 
@@ -358,6 +353,7 @@ a {
 .placesSelector > .place > h2 {
     padding: 1em 0;
     margin: 0;
+    font-size: 1em;
 }
 
 .placesSelector > .place.active {
@@ -370,6 +366,13 @@ a {
     text-align: center;
     line-height: 2em;
     font-size: 1.2em
+}
+
+@media only screen and (min-width: 768px) {
+    #maps.halfScreen, #placeSelectorWrapper {
+        width: 50%;
+        float: left;
+    }
 }
 
 
