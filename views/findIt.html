@@ -5,8 +5,12 @@
         <div id="findItOverlay" class="makeItFit" ng-show="findIt.showOverlay">
         	<div class="overlayContent">
         		<p class="loading" ng-show="findIt.showOverlayLoading"></p>
-        		<div class="placesSelector" ng-show="findIt.showPlaces">
-        			
+        		<div id="placeSelectorWrapper" ng-show="findIt.showPlaces">
+        			<div class="placesSelector">
+	        			<div ng-repeat="place in findIt.places">
+	        				<h2>{{ place.name }}</h2>
+	        			</div>
+        			</div>
         		</div>
         	</div>
         	<div class="overlayBack"></div>

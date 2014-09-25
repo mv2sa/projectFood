@@ -69,12 +69,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	});
 });
 
-app.run(function($rootScope, $urlRouter, $window) {
-	$rootScope.$on('$locationChangeSuccess', function(evt) {
-		angular.element($window.document.getElementsByTagName('body')).removeClass('activeMenu');
-	});
-});
-
 app.controller('dashboard', function($scope, skeletonFactory) {
 	$scope.dashboardItems = {
 		loading : true
@@ -99,7 +93,7 @@ app.controller('dashboard', function($scope, skeletonFactory) {
 	init();
 });
 
-app.controller('menu', function($scope, $location, $window, skeletonFactory) {
+app.controller('menu', function($rootScope, $urlRouter, $scope, $location, $window, skeletonFactory) {
 	$scope.navigation = {
 		path : $location.path(),
 		loading : true
@@ -107,16 +101,6 @@ app.controller('menu', function($scope, $location, $window, skeletonFactory) {
 
 	var init = function() {
 		var storedData;
-
-		angular.element($window.document.getElementById('hamburguerMenu')).on('click', function(event) {
-			event.preventDefault();
-			var body = $window.document.getElementsByTagName('body');
-			if (angular.element(body).hasClass('activeMenu')) {
-				angular.element(body).removeClass('activeMenu');
-			} else {
-				angular.element(body).addClass('activeMenu');
-			}
-		});
 
 		storedData = skeletonFactory.getStoredSkeleton();
 		if(storedData === null) {
@@ -130,7 +114,28 @@ app.controller('menu', function($scope, $location, $window, skeletonFactory) {
 		}
 	};
 
+	var listeners = function () {
+		$rootScope.menuInitialized = true;
+		angular.element($window.document.getElementById('hamburguerMenu')).on('click', function(event) {
+			event.preventDefault();
+			var body = $window.document.getElementsByTagName('body');
+			if (angular.element(body).hasClass('activeMenu')) {
+				angular.element(body).removeClass('activeMenu');
+			} else {
+				angular.element(body).addClass('activeMenu');
+			}
+		});
+		$rootScope.$on('$locationChangeSuccess', function(evt) {
+			angular.element($window.document.getElementsByTagName('body')).removeClass('activeMenu');
+		});
+	};
+
+	if (!$rootScope.menuInitialized) {
+		listeners();
+	}
+
 	init();
+
 });
 
 app.controller('findIt', function($scope, $window, trackPosition, googleMaps) {
@@ -141,7 +146,7 @@ app.controller('findIt', function($scope, $window, trackPosition, googleMaps) {
 		showOverlay : true,
 		showPlaces : false,
 		showOverlayLoading : true,
-		configuration : [],
+		configuration : [ 'bakery', 'cafe', 'food', 'meal_delivery', 'meal_takeaway', 'restaurant' ],
 		markers : [],
 		places : [],
 		screenHeight : 0
@@ -214,7 +219,10 @@ app.controller('findIt', function($scope, $window, trackPosition, googleMaps) {
 				maxItems++;
 			}
 		}
-		console.log(selectedList);
+		for (i = 0; i < selectedList.length; i++) {
+			$scope.findIt.places.push(list[selectedList[i]]);
+		}
+		console.log($scope.findIt.places);
 		$scope.findIt.showPlaces = true;
 		$scope.findIt.showOverlayLoading = false;
 	};
