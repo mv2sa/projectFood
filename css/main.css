@@ -386,7 +386,7 @@ a {
     font-family: 'FontAwesome';
     text-align: center;
     font-size: 2.5em;
-    display: block;
+    display: inline-block;
     -webkit-font-smoothing: antialiased;
     -webkit-animation-duration: 1.5s;
     -webkit-animation-name: spin;
