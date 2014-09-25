@@ -346,18 +346,22 @@ a {
     background-color: #fff;
 }
 
-.placesSelector > div {
+.placesSelector > .place {
     width: 100%;
     border-bottom: 1px solid #000;
 }
 
-.placesSelector > div:last-child {
+.placesSelector > .place:last-child {
     border-bottom: none;  
 }
 
-.placesSelector > div > h2 {
+.placesSelector > .place > h2 {
     padding: 1em 0;
     margin: 0;
+}
+
+.placesSelector > .place.active {
+    background-color: green;
 }
 
 #appBody > footer {

@@ -138,7 +138,7 @@ app.controller('menu', function($rootScope, $urlRouter, $scope, $location, $wind
 
 });
 
-app.controller('findIt', function($scope, $window, trackPosition, googleMaps) {
+app.controller('findIt', function($scope, $timeout, $window, trackPosition, googleMaps) {
 	$scope.findIt = {
 		position : false,
 		map : false,
@@ -151,6 +151,8 @@ app.controller('findIt', function($scope, $window, trackPosition, googleMaps) {
 		places : [],
 		screenHeight : 0
 	};
+
+	var randomTimes = 0;
 
 	var init = function() {
 
@@ -197,15 +199,13 @@ app.controller('findIt', function($scope, $window, trackPosition, googleMaps) {
 	}
 
 	var randomizeMainList = function (list, maxItems) {
-		var i, j, currentNumber, there
+		var i, j, currentNumber, there, iterator,
 			selectedList = [];
 		if (maxItems > list.length) {
 			maxItems = list.length;
 		}
-		//console.log(maxItems + "  " + list.length);
-		//$scope.findIt.places = list;
-		for (i = 0; i < maxItems; i++) {
-			//console.log(i);
+		iterator = maxItems;
+		for (i = 0; i < iterator; i++) {
 			there = false;
 			currentNumber = getRandomInt(0, list.length);
 			for (j = 0; j < selectedList.length; j++) {
@@ -216,15 +216,44 @@ app.controller('findIt', function($scope, $window, trackPosition, googleMaps) {
 			if (i === 0 || there === false) {
 				selectedList.push(currentNumber);
 			} else {
-				maxItems++;
+				iterator++;
 			}
 		}
 		for (i = 0; i < selectedList.length; i++) {
-			$scope.findIt.places.push(list[selectedList[i]]);
+			$scope.findIt.places.push(list[selectedList[i]-1]);
 		}
-		console.log($scope.findIt.places);
 		$scope.findIt.showPlaces = true;
 		$scope.findIt.showOverlayLoading = false;
+		selectionAnimation(maxItems, false, 10);
+	};
+
+	var selectionAnimation = function (maxItems, lastItem, iteractions) {
+		var i, 
+			randomPosition = getRandomInt(0, maxItems-1);
+			el = $window.document.getElementById('placeSelectorWrapper');
+			el2 = el.querySelectorAll('.place');
+		if (randomPosition === lastItem) {
+			if (randomPosition === 0) {
+				randomPosition++;
+			} else {
+				randomPosition--;
+			}
+		}
+		angular.element(el2).removeClass('active');
+		angular.element(el2[randomPosition]).addClass('active');
+		randomTimes++;
+		if (randomTimes <= iteractions) {
+			$timeout(function () {
+				selectionAnimation(maxItems, randomPosition, iteractions);
+			}, 500);
+		} else {
+			randomTimes = 0;
+			showFinalResult(randomPosition);
+		}
+	};
+
+	var showFinalResult = function (result) {
+
 	};
 
 	var addYouMarker = function () {
