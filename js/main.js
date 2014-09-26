@@ -101,7 +101,9 @@ app.controller('menu', function($rootScope, $urlRouter, $scope, $location, $wind
 
 	var init = function() {
 		var storedData;
-
+		if (!$rootScope.menuInitialized) {
+			listeners();
+		}
 		storedData = skeletonFactory.getStoredSkeleton();
 		if(storedData === null) {
 			skeletonFactory.getSkeleton().then(function(d){
@@ -116,12 +118,16 @@ app.controller('menu', function($rootScope, $urlRouter, $scope, $location, $wind
 
 	var listeners = function () {
 		$rootScope.menuInitialized = true;
+		angular.element($window).bind('resize', function() {
+			adjustHeight($window.document.getElementById('appMenu'));
+		});
 		angular.element($window.document.getElementById('hamburguerMenu')).on('click', function(event) {
 			event.preventDefault();
 			var body = $window.document.getElementsByTagName('body');
 			if (angular.element(body).hasClass('activeMenu')) {
 				angular.element(body).removeClass('activeMenu');
 			} else {
+				adjustHeight($window.document.getElementById('appMenu'));
 				angular.element(body).addClass('activeMenu');
 			}
 		});
@@ -130,9 +136,10 @@ app.controller('menu', function($rootScope, $urlRouter, $scope, $location, $wind
 		});
 	};
 
-	if (!$rootScope.menuInitialized) {
-		listeners();
-	}
+	var adjustHeight = function(element) {
+		var heightSize = $window.document.getElementById('mainWrapper').offsetHeight;		
+		angular.element(element).css('height', heightSize + 'px');
+	};
 
 	init();
 

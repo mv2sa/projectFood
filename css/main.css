@@ -170,7 +170,7 @@ a {
     height: 100%;
     position: absolute;
     margin-left: -6em;
-    padding-top: 3em;
+    margin-top: 3em;
     z-index: 200;
     -webkit-transition: margin 1s;
     -moz-transition: margin 1s;
