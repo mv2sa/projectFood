@@ -330,7 +330,8 @@ a {
     text-align: center;
 }
 
-#placeSelectorWrapper {
+#placeSelectorWrapper,
+#placeSelected {
     display: table;
     width: 100%;
 }
@@ -375,9 +376,16 @@ a {
 }
 
 @media only screen and (min-width: 600px) {
-    #maps.halfScreen, #placeSelectorWrapper {
+    #maps.halfScreen, #placeSelectorWrapper, #placeSelected {
         width: 50%;
         float: left;
+    }
+
+    .placesSelector > .place > h2 {
+        padding: 0.5em 0;
+        margin: 0;
+        font-size: 1.2em;
+        color: #003366;
     }
 }
 

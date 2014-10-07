@@ -1,6 +1,6 @@
 <div id="mainSectionWrapper">
     <div class="mainSection revertZebra">
-    	<div id="maps" class="makeItFit"  ng-class="{halfScreen : findIt.showPlaces}" ng-show="findIt.showMap">
+    	<div id="maps" class="makeItFit" ng-class="{halfScreen : findIt.showPlaces || findIt.showFinalPlace}" ng-show="findIt.showMap">
         </div>
         <div id="findItOverlay" class="makeItFit" ng-show="findIt.showOverlay">
         	<div class="overlayContent">
@@ -15,5 +15,24 @@
 				</div>
 			</div>
 		</div>
+        <div id="placeSelected" class="makeItFit" ng-show="findIt.showFinalPlace">
+            <div class="placesSelected">
+                <div class="place">
+                    <h2>{{ findIt.placeSelected.name }}</h2>
+                    <span ng-if="placeSelected.user_ratings_total">{{ findIt.placeSelected.user_ratings_total }} </span>Ratings: <span class="resultStars" ng-bind-html="findIt.placeSelected.rating | ratingToStar | toHTML"></span><span class="resultDollar" ng-if="findIt.placeSelected.price_level" ng-bind-html="findIt.placeSelected.price_level | priceRating | toHTML"></span>
+                    <a href="" ng-if="findIt.placeSelected.reviews && (findIt.placeSelected.rating || findIt.placeSelected.price_level)">
+                        See Ratings
+                    </a>
+                    <p ng-if="findIt.placeSelected.formatted_address">Address: <span> {{ findIt.placeSelected.formatted_address }}</span></p>
+                    <p ng-if="findIt.placeSelected.formatted_phone_number">Phone Number: <span> {{ findIt.placeSelected.formatted_phone_number }}</p>
+                    <p ng-if="findIt.placeSelected.website">Website: <a href="{{ findIt.placeSelected.website }}" target="_blank">{{ findIt.placeSelected.website }}</a></p>
+                    <div ng-if="findIt.placeSelected.photos">
+                        <a href="" ng-repeat="photo in findIt.placeSelected.photos">
+                            <img ng-src="{{ photo.photoSmall }}" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

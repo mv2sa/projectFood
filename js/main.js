@@ -152,10 +152,12 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 		showMap : true,
 		showOverlay : true,
 		showPlaces : false,
+		showFinalPlace : false,
 		showOverlayLoading : true,
 		configuration : [ 'cafe', 'restaurant' ],
 		markers : [],
 		places : [],
+		placeSelected : {},
 		screenHeight : 0
 	};
 
@@ -185,7 +187,7 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 				$scope.findIt.map.setZoom(13);
 				removeAllMarkers();
 			}
-			addYouMarker();
+			addMarker('You', $scope.findIt.map.getCenter());
 			resizeMap();
 			getPlaces();
 		});
@@ -195,7 +197,7 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 		googleMaps.getPlaces($scope.findIt.map, $scope.findIt.position, 10 * 1609.34, $scope.findIt.configuration, 2).then(function(d){
 			if ($scope.findIt.places.error) {
 				removeAllMarkers();
-				addYouMarker();
+				addMarker('You', $scope.findIt.map.getCenter());
 			} else {
 				randomizeMainList(d, 6);
 			}
@@ -230,7 +232,6 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 		for (i = 0; i < selectedList.length; i++) {
 			$scope.findIt.places.push(list[selectedList[i]]);
 		}
-		addMarkers();
 		$scope.findIt.showPlaces = true;
 		$scope.findIt.showOverlay = false;
 		$scope.findIt.showOverlayLoading = false;
@@ -263,44 +264,29 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 	};
 
 	var showFinalResult = function (result) {
-		centerOnMap(result+1);
+		addMarker($scope.findIt.places[result].name, $scope.findIt.places[result].geometry.location);
+		googleMaps.getPlaceDetail($scope.findIt.map, $scope.findIt.places[result].place_id).then(function(d){
+			centerOnMap(1);
+			$scope.findIt.placeSelected = d;
+			$scope.findIt.showPlaces = false;
+			$scope.findIt.showFinalPlace = true;
+		});
 	};
 
 	var centerOnMap = function (id) {
-		if (typeof id === "number") {
-			if (id <= $scope.findIt.markers.length){
-				$scope.findIt.map.setCenter(
-					$scope.findIt.markers[id].position
-				);
-				//$scope.findIt.map.setZoom(16);
-			}
-		}
+		$scope.findIt.map.setCenter(
+			$scope.findIt.markers[id].position
+		);
+		//$scope.findIt.map.setZoom(16);
 	};
 
-	var addYouMarker = function () {
+	var addMarker = function (title, position) {
 		var marker = new google.maps.Marker({
-		    position: $scope.findIt.map.getCenter(),
+		    position: position,
 		    map: $scope.findIt.map,
-		    title: 'You'
+		    title: title
 		});
 		$scope.findIt.markers.push(marker);
-	};
-
-	var addMarkers = function () {
-		var i, marker;
-		for (i = 0; i < $scope.findIt.places.length; i++) {
-			marker = new google.maps.Marker({
-				map: $scope.findIt.map,
-				animation: google.maps.Animation.DROP,
-				position: $scope.findIt.places[i].geometry.location,
-				title: $scope.findIt.places[i].name
-			});
-			// var markerClickEvent = google.maps.event.addListener(marker, 'click', function(id, index) {
-			// 	return function() {$scope.showDetails(index, id);$scope.$digest();}
-			// }($scope.places[i].place_id, i+1));
-			$scope.findIt.markers.push(marker);
-			//$scope.markersListeners.push(markerClickEvent);
-		}
 	};
 
 	var removeAllMarkers = function () {
