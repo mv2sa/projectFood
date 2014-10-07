@@ -157,6 +157,7 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 		configuration : [ 'cafe', 'restaurant' ],
 		markers : [],
 		places : [],
+		fullList : [],
 		placeSelected : {},
 		screenHeight : 0
 	};
@@ -195,11 +196,12 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 
 	var getPlaces = function () {
 		googleMaps.getPlaces($scope.findIt.map, $scope.findIt.position, 10 * 1609.34, $scope.findIt.configuration, 2).then(function(d){
-			if ($scope.findIt.places.error) {
+			$scope.findIt.fullList = d;
+			if ($scope.findIt.fullList.error) {
 				removeAllMarkers();
 				addMarker('You', $scope.findIt.map.getCenter());
 			} else {
-				randomizeMainList(d, 6);
+				randomizeMainList($scope.findIt.fullList, 6);
 			}
 		});
 	};
@@ -211,6 +213,7 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 	var randomizeMainList = function (list, maxItems) {
 		var i, j, currentNumber, there, iterator,
 			selectedList = [];
+		$scope.findIt.places = [];
 		if (maxItems > list.length) {
 			maxItems = list.length;
 		}
@@ -221,6 +224,10 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 			for (j = 0; j < selectedList.length; j++) {
 				if (currentNumber === selectedList[j]) {
 					there = true;
+					break;
+				} else if (list[currentNumber].name === list[selectedList[j]].name) {
+					there = true;
+					break;
 				}
 			}
 			if (i === 0 || there === false) {
@@ -268,8 +275,10 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 		googleMaps.getPlaceDetail($scope.findIt.map, $scope.findIt.places[result].place_id).then(function(d){
 			centerOnMap(1);
 			$scope.findIt.placeSelected = d;
-			$scope.findIt.showPlaces = false;
-			$scope.findIt.showFinalPlace = true;
+			$timeout(function () {
+				$scope.findIt.showPlaces = false;
+				$scope.findIt.showFinalPlace = true;
+			}, 500);
 		});
 	};
 
@@ -322,6 +331,14 @@ app.controller('findIt', function($scope, $timeout, $window, trackPosition, goog
 		}
 	};
 
+	$scope.restart = function() {
+		$scope.findIt.showMap = true;
+		$scope.findIt.showOverlay = true;
+		$scope.findIt.showPlaces = false;
+		$scope.findIt.showFinalPlace = false;
+		$scope.findIt.showOverlayLoading = true;
+		randomizeMainList($scope.findIt.fullList, 6);
+	};
 
 	init();
 
